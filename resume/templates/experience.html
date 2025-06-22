@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work Experience Manager</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --accent: #f72585;
+            --success: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --darker: #1a1a2e;
+            --text: #2b2d42;
+            --border: #e9ecef;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --gradient: linear-gradient(135deg, #4361ee 0%, #3f37c9 100%);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: #f8fafc;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--gradient);
+        }
+        
+        h1 {
+            color: var(--secondary);
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            font-size: 2.2rem;
+            position: relative;
+        }
+        
+        .experience-container {
+            margin-bottom: 1.5rem;
+            padding: 1.8rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background-color: white;
+            transition: all 0.3s;
+        }
+        
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+        }
+        
+        .experience-number {
+            background: var(--gradient);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .remove-experience {
+            background: var(--accent);
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .remove-experience:hover {
+            background: #e5177b;
+            transform: scale(1.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.6rem;
+            font-weight: 500;
+        }
+        
+        input[type="text"], 
+        textarea,
+        input[type="date"] {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        input[type="text"]:focus, 
+        textarea:focus,
+        input[type="date"]:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .date-fields {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .date-field {
+            flex: 1;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2.5rem;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 0.9rem 1.8rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+        
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(67, 97, 238, 0.2);
+        }
+        
+        .btn-secondary {
+            background-color: white;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #64748b;
+            border: 2px dashed #e2e8f0;
+            border-radius: 12px;
+            margin: 1rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .container {
+                padding: 1.8rem;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+            
+            .date-fields {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-briefcase"></i> Work Experience Manager</h1>
+        
+        <form method="POST" action="{% url 'experience' %}">
+            {% csrf_token %}
+            <div id="experienceForm">
+                <div class="experience-container" id="experience1">
+                    <div class="experience-header">
+                        <div class="experience-number">1</div>
+                        <button type="button" class="remove-experience" onclick="removeExperience('experience1')" style="display: none;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <label for="company1">Company Name</label>
+                        <input type="text" id="company1" name="company_1" placeholder="e.g., Google Inc." required>
+                    </div>
+                    <div class="form-group">
+                        <label for="position1">Job Position</label>
+                        <input type="text" id="position1" name="position_1" placeholder="e.g., Senior Software Engineer" required>
+                    </div>
+                    <div class="form-group date-fields">
+                        <div class="date-field">
+                            <label for="startDate1">Start Date</label>
+                            <input type="date" id="startDate1" name="start_date_1" required>
+                        </div>
+                        <div class="date-field">
+                            <label for="endDate1">End Date</label>
+                            <input type="date" id="endDate1" name="end_date_1">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="current1" name="current_1">
+                            <label for="current1">I currently work here</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description1">Job Description</label>
+                        <textarea id="description1" name="description_1" placeholder="Describe your responsibilities, achievements, and technologies used"></textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <i class="fas fa-briefcase"></i>
+                <h3>No Work Experience Added</h3>
+                <p>Add your first work experience to get started</p>
+            </div>
+            
+            <div class="buttons">
+                <button type="button" id="addMoreBtn" class="btn btn-secondary">
+                    <i class="fas fa-plus-circle"></i> Add Experience
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-arrow-right"></i> Next Section
+                </button>
+            </div>
+            
+            <input type="hidden" id="experienceCount" name="experience_count" value="1">
+        </form>
+    </div>
+
+    <script>
+        let experienceCount = 1;
+        
+        // Set default dates
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date();
+            const twoYearsAgo = new Date();
+            twoYearsAgo.setFullYear(today.getFullYear() - 2);
+            
+            document.getElementById('startDate1').value = twoYearsAgo.toISOString().split('T')[0];
+            document.getElementById('endDate1').value = today.toISOString().split('T')[0];
+            
+            // Handle current job checkbox
+            document.getElementById('current1').addEventListener('change', function() {
+                document.getElementById('endDate1').disabled = this.checked;
+                if (this.checked) {
+                    document.getElementById('endDate1').value = '';
+                }
+            });
+        });
+        
+        // Add new experience
+        document.getElementById('addMoreBtn').addEventListener('click', function() {
+            experienceCount++;
+            
+            const newExperience = document.createElement('div');
+            newExperience.className = 'experience-container';
+            newExperience.id = 'experience' + experienceCount;
+            newExperience.innerHTML = `
+                <div class="experience-header">
+                    <div class="experience-number">${experienceCount}</div>
+                    <button type="button" class="remove-experience" onclick="removeExperience('experience${experienceCount}')">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="form-group">
+                    <label for="company${experienceCount}">Company Name</label>
+                    <input type="text" id="company${experienceCount}" name="company_${experienceCount}" placeholder="e.g., Google Inc." required>
+                </div>
+                <div class="form-group">
+                    <label for="position${experienceCount}">Job Position</label>
+                    <input type="text" id="position${experienceCount}" name="position_${experienceCount}" placeholder="e.g., Senior Software Engineer" required>
+                </div>
+                <div class="form-group date-fields">
+                    <div class="date-field">
+                        <label for="startDate${experienceCount}">Start Date</label>
+                        <input type="date" id="startDate${experienceCount}" name="start_date_${experienceCount}" required>
+                    </div>
+                    <div class="date-field">
+                        <label for="endDate${experienceCount}">End Date</label>
+                        <input type="date" id="endDate${experienceCount}" name="end_date_${experienceCount}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="current${experienceCount}" name="current_${experienceCount}">
+                        <label for="current${experienceCount}">I currently work here</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description${experienceCount}">Job Description</label>
+                    <textarea id="description${experienceCount}" name="description_${experienceCount}" placeholder="Describe your responsibilities, achievements, and technologies used"></textarea>
+                </div>
+            `;
+            
+            document.getElementById('experienceForm').appendChild(newExperience);
+            document.getElementById('emptyState').style.display = 'none';
+            document.getElementById('experienceCount').value = experienceCount;
+            
+            // Set default dates for new entry
+            const today = new Date();
+            const startDate = new Date();
+            startDate.setFullYear(today.getFullYear() - 2);
+            document.getElementById(`startDate${experienceCount}`).value = startDate.toISOString().split('T')[0];
+            document.getElementById(`endDate${experienceCount}`).value = today.toISOString().split('T')[0];
+            
+            // Handle current job checkbox for new entry
+            document.getElementById(`current${experienceCount}`).addEventListener('change', function() {
+                document.getElementById(`endDate${experienceCount}`).disabled = this.checked;
+                if (this.checked) {
+                    document.getElementById(`endDate${experienceCount}`).value = '';
+                }
+            });
+            
+            // Show remove buttons if more than one experience
+            if (experienceCount > 1) {
+                document.querySelectorAll('.remove-experience').forEach(btn => {
+                    btn.style.display = 'flex';
+                });
+            }
+        });
+        
+        // Remove experience
+        function removeExperience(id) {
+            const experienceToRemove = document.getElementById(id);
+            if (experienceToRemove) {
+                experienceToRemove.remove();
+                experienceCount--;
+                document.getElementById('experienceCount').value = experienceCount;
+                
+                // Update experience numbers
+                const experiences = document.querySelectorAll('.experience-container');
+                experiences.forEach((experience, index) => {
+                    const number = experience.querySelector('.experience-number');
+                    if (number) {
+                        number.textContent = index + 1;
+                        experience.id = 'experience' + (index + 1);
+                        
+                        // Update input names
+                        const inputs = experience.querySelectorAll('input, textarea');
+                        inputs[0].name = 'company_' + (index + 1);
+                        inputs[1].name = 'position_' + (index + 1);
+                        inputs[2].name = 'start_date_' + (index + 1);
+                        inputs[3].name = 'end_date_' + (index + 1);
+                        inputs[4].name = 'current_' + (index + 1);
+                        inputs[5].name = 'description_' + (index + 1);
+                    }
+                });
+                
+                // Hide remove button if only one experience left
+                if (experienceCount === 1) {
+                    document.querySelector('.remove-experience').style.display = 'none';
+                }
+                
+                // Show empty state if no experiences left
+                if (experienceCount === 0) {
+                    document.getElementById('emptyState').style.display = 'block';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

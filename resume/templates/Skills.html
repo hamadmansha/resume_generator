@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skills Manager</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --accent: #f72585;
+            --success: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --darker: #1a1a2e;
+            --text: #2b2d42;
+            --border: #e9ecef;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --gradient: linear-gradient(135deg, #4361ee 0%, #3f37c9 100%);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: #f8fafc;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--gradient);
+        }
+        
+        h1 {
+            color: var(--secondary);
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            font-size: 2.2rem;
+            position: relative;
+        }
+        
+        .skill-container {
+            margin-bottom: 1.5rem;
+            padding: 1.8rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background-color: white;
+            transition: all 0.3s;
+        }
+        
+        .skill-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+        }
+        
+        .skill-number {
+            background: var(--gradient);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .remove-skill {
+            background: var(--accent);
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .remove-skill:hover {
+            background: #e5177b;
+            transform: scale(1.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.6rem;
+            font-weight: 500;
+        }
+        
+        input[type="text"], 
+        textarea {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        input[type="text"]:focus, 
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2.5rem;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 0.9rem 1.8rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+        
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(67, 97, 238, 0.2);
+        }
+        
+        .btn-secondary {
+            background-color: white;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #64748b;
+            border: 2px dashed #e2e8f0;
+            border-radius: 12px;
+            margin: 1rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .container {
+                padding: 1.8rem;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-magic"></i> Skills Manager</h1>
+        
+        <form method="POST" action="{% url 'skills' %}">
+            {% csrf_token %}
+            <div id="skillsForm">
+                <div class="skill-container" id="skill1">
+                    <div class="skill-header">
+                        <div class="skill-number">1</div>
+                        <button type="button" class="remove-skill" onclick="removeSkill('skill1')" style="display: none;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <label for="skillName1">Skill Name</label>
+                        <input type="text" id="skillName1" name="skill_name_1" placeholder="e.g., Frontend Development" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="skillDesc1">Description</label>
+                        <textarea id="skillDesc1" name="skill_desc_1" placeholder="Describe your expertise, technologies used, and achievements" required></textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <i class="fas fa-clipboard-list"></i>
+                <h3>No Skills Added</h3>
+                <p>Add your first skill to get started</p>
+            </div>
+            
+            <div class="buttons">
+                <button type="button" id="addMoreBtn" class="btn btn-secondary">
+                    <i class="fas fa-plus-circle"></i> Add Skill
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-arrow-right"></i> Next Section
+                </button>
+            </div>
+            
+            <input type="hidden" id="skillCount" name="skill_count" value="1">
+        </form>
+    </div>
+
+    <script>
+        let skillCount = 1;
+        
+        // Add new skill
+        document.getElementById('addMoreBtn').addEventListener('click', function() {
+            skillCount++;
+            
+            const newSkill = document.createElement('div');
+            newSkill.className = 'skill-container';
+            newSkill.id = 'skill' + skillCount;
+            newSkill.innerHTML = `
+                <div class="skill-header">
+                    <div class="skill-number">${skillCount}</div>
+                    <button type="button" class="remove-skill" onclick="removeSkill('skill${skillCount}')">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="form-group">
+                    <label for="skillName${skillCount}">Skill Name</label>
+                    <input type="text" id="skillName${skillCount}" name="skill_name_${skillCount}" placeholder="e.g., Backend Development" required>
+                </div>
+                <div class="form-group">
+                    <label for="skillDesc${skillCount}">Description</label>
+                    <textarea id="skillDesc${skillCount}" name="skill_desc_${skillCount}" placeholder="Describe your expertise, technologies used, and achievements" required></textarea>
+                </div>
+            `;
+            
+            document.getElementById('skillsForm').appendChild(newSkill);
+            document.getElementById('emptyState').style.display = 'none';
+            document.getElementById('skillCount').value = skillCount;
+            
+            // Show remove buttons if more than one skill
+            if (skillCount > 1) {
+                document.querySelectorAll('.remove-skill').forEach(btn => {
+                    btn.style.display = 'flex';
+                });
+            }
+        });
+        
+        // Remove skill
+        function removeSkill(id) {
+            const skillToRemove = document.getElementById(id);
+            if (skillToRemove) {
+                skillToRemove.remove();
+                skillCount--;
+                document.getElementById('skillCount').value = skillCount;
+                
+                // Update skill numbers
+                const skills = document.querySelectorAll('.skill-container');
+                skills.forEach((skill, index) => {
+                    const number = skill.querySelector('.skill-number');
+                    if (number) {
+                        number.textContent = index + 1;
+                        skill.id = 'skill' + (index + 1);
+                        
+                        // Update input names
+                        const inputs = skill.querySelectorAll('input, textarea');
+                        inputs[0].name = 'skill_name_' + (index + 1);
+                        inputs[1].name = 'skill_desc_' + (index + 1);
+                    }
+                });
+                
+                // Hide remove button if only one skill left
+                if (skillCount === 1) {
+                    document.querySelector('.remove-skill').style.display = 'none';
+                }
+                
+                // Show empty state if no skills left
+                if (skillCount === 0) {
+                    document.getElementById('emptyState').style.display = 'block';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

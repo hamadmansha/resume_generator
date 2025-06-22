@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Education Manager</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --accent: #f72585;
+            --success: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --darker: #1a1a2e;
+            --text: #2b2d42;
+            --border: #e9ecef;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --gradient: linear-gradient(135deg, #4361ee 0%, #3f37c9 100%);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: #f8fafc;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--gradient);
+        }
+        
+        h1 {
+            color: var(--secondary);
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            font-size: 2.2rem;
+            position: relative;
+        }
+        
+        .education-container {
+            margin-bottom: 1.5rem;
+            padding: 1.8rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background-color: white;
+            transition: all 0.3s;
+        }
+        
+        .education-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+        }
+        
+        .education-number {
+            background: var(--gradient);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .remove-education {
+            background: var(--accent);
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .remove-education:hover {
+            background: #e5177b;
+            transform: scale(1.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.6rem;
+            font-weight: 500;
+        }
+        
+        input[type="text"], 
+        textarea,
+        input[type="date"] {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        input[type="text"]:focus, 
+        textarea:focus,
+        input[type="date"]:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .date-fields {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .date-field {
+            flex: 1;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2.5rem;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 0.9rem 1.8rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+        
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(67, 97, 238, 0.2);
+        }
+        
+        .btn-secondary {
+            background-color: white;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #64748b;
+            border: 2px dashed #e2e8f0;
+            border-radius: 12px;
+            margin: 1rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .container {
+                padding: 1.8rem;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+            
+            .date-fields {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-graduation-cap"></i> Education Manager</h1>
+        
+        <form method="POST" action="{% url 'education' %}">
+            {% csrf_token %}
+            <div id="educationForm">
+                <div class="education-container" id="education1">
+                    <div class="education-header">
+                        <div class="education-number">1</div>
+                        <button type="button" class="remove-education" onclick="removeEducation('education1')" style="display: none;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <label for="institution1">Institution Name</label>
+                        <input type="text" id="institution1" name="institution_1" placeholder="e.g., University of Technology" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="degree1">Degree/Certification</label>
+                        <input type="text" id="degree1" name="degree_1" placeholder="e.g., Bachelor of Computer Science" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="field1">Field of Study</label>
+                        <input type="text" id="field1" name="field_1" placeholder="e.g., Software Engineering">
+                    </div>
+                    <div class="form-group date-fields">
+                        <div class="date-field">
+                            <label for="startDate1">Start Date</label>
+                            <input type="date" id="startDate1" name="start_date_1" required>
+                        </div>
+                        <div class="date-field">
+                            <label for="endDate1">End Date (or expected)</label>
+                            <input type="date" id="endDate1" name="end_date_1">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description1">Description</label>
+                        <textarea id="description1" name="description_1" placeholder="Describe your education, achievements, or relevant coursework"></textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <i class="fas fa-graduation-cap"></i>
+                <h3>No Education Added</h3>
+                <p>Add your first education entry to get started</p>
+            </div>
+            
+            <div class="buttons">
+                <button type="button" id="addMoreBtn" class="btn btn-secondary">
+                    <i class="fas fa-plus-circle"></i> Add Education
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-arrow-right"></i> Next Section
+                </button>
+            </div>
+            
+            <input type="hidden" id="educationCount" name="education_count" value="1">
+        </form>
+    </div>
+
+    <script>
+        let educationCount = 1;
+        
+        // Set default dates
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('startDate1').value = '2018-09-01';
+            document.getElementById('endDate1').value = today;
+        });
+        
+        // Add new education
+        document.getElementById('addMoreBtn').addEventListener('click', function() {
+            educationCount++;
+            
+            const newEducation = document.createElement('div');
+            newEducation.className = 'education-container';
+            newEducation.id = 'education' + educationCount;
+            newEducation.innerHTML = `
+                <div class="education-header">
+                    <div class="education-number">${educationCount}</div>
+                    <button type="button" class="remove-education" onclick="removeEducation('education${educationCount}')">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="form-group">
+                    <label for="institution${educationCount}">Institution Name</label>
+                    <input type="text" id="institution${educationCount}" name="institution_${educationCount}" placeholder="e.g., University of Technology" required>
+                </div>
+                <div class="form-group">
+                    <label for="degree${educationCount}">Degree/Certification</label>
+                    <input type="text" id="degree${educationCount}" name="degree_${educationCount}" placeholder="e.g., Bachelor of Computer Science" required>
+                </div>
+                <div class="form-group">
+                    <label for="field${educationCount}">Field of Study</label>
+                    <input type="text" id="field${educationCount}" name="field_${educationCount}" placeholder="e.g., Software Engineering">
+                </div>
+                <div class="form-group date-fields">
+                    <div class="date-field">
+                        <label for="startDate${educationCount}">Start Date</label>
+                        <input type="date" id="startDate${educationCount}" name="start_date_${educationCount}" required>
+                    </div>
+                    <div class="date-field">
+                        <label for="endDate${educationCount}">End Date (or expected)</label>
+                        <input type="date" id="endDate${educationCount}" name="end_date_${educationCount}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description${educationCount}">Description</label>
+                    <textarea id="description${educationCount}" name="description_${educationCount}" placeholder="Describe your education, achievements, or relevant coursework"></textarea>
+                </div>
+            `;
+            
+            document.getElementById('educationForm').appendChild(newEducation);
+            document.getElementById('emptyState').style.display = 'none';
+            document.getElementById('educationCount').value = educationCount;
+            
+            // Set default dates for new entry
+            const startDate = new Date();
+            startDate.setFullYear(startDate.getFullYear() - 4);
+            document.getElementById(`startDate${educationCount}`).value = startDate.toISOString().split('T')[0];
+            document.getElementById(`endDate${educationCount}`).value = new Date().toISOString().split('T')[0];
+            
+            // Show remove buttons if more than one education
+            if (educationCount > 1) {
+                document.querySelectorAll('.remove-education').forEach(btn => {
+                    btn.style.display = 'flex';
+                });
+            }
+        });
+        
+        // Remove education
+        function removeEducation(id) {
+            const educationToRemove = document.getElementById(id);
+            if (educationToRemove) {
+                educationToRemove.remove();
+                educationCount--;
+                document.getElementById('educationCount').value = educationCount;
+                
+                // Update education numbers
+                const educations = document.querySelectorAll('.education-container');
+                educations.forEach((education, index) => {
+                    const number = education.querySelector('.education-number');
+                    if (number) {
+                        number.textContent = index + 1;
+                        education.id = 'education' + (index + 1);
+                        
+                        // Update input names
+                        const inputs = education.querySelectorAll('input, textarea');
+                        inputs[0].name = 'institution_' + (index + 1);
+                        inputs[1].name = 'degree_' + (index + 1);
+                        inputs[2].name = 'field_' + (index + 1);
+                        inputs[3].name = 'start_date_' + (index + 1);
+                        inputs[4].name = 'end_date_' + (index + 1);
+                        inputs[5].name = 'description_' + (index + 1);
+                    }
+                });
+                
+                // Hide remove button if only one education left
+                if (educationCount === 1) {
+                    document.querySelector('.remove-education').style.display = 'none';
+                }
+                
+                // Show empty state if no educations left
+                if (educationCount === 0) {
+                    document.getElementById('emptyState').style.display = 'block';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

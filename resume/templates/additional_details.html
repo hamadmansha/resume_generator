@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Additional Information</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --accent: #f72585;
+            --success: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --darker: #1a1a2e;
+            --text: #2b2d42;
+            --border: #e9ecef;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --gradient: linear-gradient(135deg, #4361ee 0%, #3f37c9 100%);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: #f8fafc;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--gradient);
+        }
+        
+        h1 {
+            color: var(--secondary);
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            font-size: 2.2rem;
+        }
+        
+        .section {
+            margin-bottom: 3rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+        }
+        
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+        
+        .section-title i {
+            font-size: 1.5rem;
+        }
+        
+        .item-container {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background-color: var(--light);
+        }
+        
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .item-number {
+            background: var(--gradient);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .remove-item {
+            background: var(--accent);
+            color: white;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .remove-item:hover {
+            background: #e5177b;
+            transform: scale(1.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--darker);
+        }
+        
+        input[type="text"],
+        input[type="url"],
+        input[type="date"],
+        textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+        
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .date-fields {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .date-field {
+            flex: 1;
+        }
+        
+        .add-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            margin-top: 0.5rem;
+        }
+        
+        .add-btn:hover {
+            background: var(--secondary);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: #64748b;
+            border: 2px dashed #e2e8f0;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        
+        .empty-state i {
+            font-size: 2rem;
+            color: #cbd5e1;
+            margin-bottom: 1rem;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+        }
+        
+        .btn {
+            padding: 0.9rem 1.8rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+        
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(67, 97, 238, 0.2);
+        }
+        
+        .btn-skip {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+        
+        .btn-skip:hover {
+            background: #e2e8f0;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .container {
+                padding: 1.5rem;
+            }
+            
+            .date-fields {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .buttons {
+                flex-direction: column-reverse;
+                gap: 1rem;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-info-circle"></i> Additional Information</h1>
+        
+        <form method="POST" action="{% url 'additional_details' %}">
+            {% csrf_token %}
+            
+            <!-- Certifications Section -->
+            <div class="section">
+                <div class="section-title">
+                    <i class="fas fa-certificate"></i>
+                    <h2>Certifications & Trainings</h2>
+                </div>
+                
+                <div id="certificationsForm">
+                    <div class="item-container" id="certification1">
+                        <div class="item-header">
+                            <div class="item-number">1</div>
+                            <button type="button" class="remove-item" onclick="removeItem('certification1', 'certCount')" style="display: none;">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="form-group">
+                            <label for="certName1">Name</label>
+                            <input type="text" id="certName1" name="cert_name_1" placeholder="AWS Certified Solutions Architect" >
+                        </div>
+                        <div class="form-group">
+                            <label for="certOrg1">Issuing Organization</label>
+                            <input type="text" id="certOrg1" name="cert_org_1" placeholder="Amazon Web Services" >
+                        </div>
+                        <div class="form-group date-fields">
+                            <div class="date-field">
+                                <label for="certDate1">Issue Date</label>
+                                <input type="date" id="certDate1" name="cert_date_1">
+                            </div>
+                            <div class="date-field">
+                                <label for="certExpiry1">Expiry Date</label>
+                                <input type="date" id="certExpiry1" name="cert_expiry_1">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="certLink1">Credential URL</label>
+                            <input type="url" id="certLink1" name="cert_link_1" placeholder="https://example.com/certificate">
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="certEmptyState" class="empty-state">
+                    <i class="fas fa-certificate"></i>
+                    <h3>No Certifications Added</h3>
+                    <p>Add your professional certifications</p>
+                </div>
+                
+                <button type="button" class="add-btn" onclick="addItem('certificationsForm', 'certEmptyState', 'certCount', 'certification')">
+                    <i class="fas fa-plus"></i> Add Certification
+                </button>
+                
+                <input type="hidden" id="certCount" name="cert_count" value="1">
+            </div>
+            
+            <!-- Achievements Section -->
+            <div class="section">
+                <div class="section-title">
+                    <i class="fas fa-trophy"></i>
+                    <h2>Achievements & Awards</h2>
+                </div>
+                
+                <div id="achievementsForm">
+                    <div class="item-container" id="achievement1">
+                        <div class="item-header">
+                            <div class="item-number">1</div>
+                            <button type="button" class="remove-item" onclick="removeItem('achievement1', 'achievementCount')" style="display: none;">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="form-group">
+                            <label for="achievementName1">Title</label>
+                            <input type="text" id="achievementName1" name="achievement_name_1" placeholder="Employee of the Year" >
+                        </div>
+                        <div class="form-group">
+                            <label for="achievementOrg1">Issuing Organization</label>
+                            <input type="text" id="achievementOrg1" name="achievement_org_1" placeholder="Tech Company Inc.">
+                        </div>
+                        <div class="form-group">
+                            <label for="achievementDate1">Date Received</label>
+                            <input type="date" id="achievementDate1" name="achievement_date_1">
+                        </div>
+                        <div class="form-group">
+                            <label for="achievementDesc1">Description</label>
+                            <textarea id="achievementDesc1" name="achievement_desc_1" placeholder="Recognized for outstanding performance..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="achievementEmptyState" class="empty-state">
+                    <i class="fas fa-trophy"></i>
+                    <h3>No Achievements Added</h3>
+                    <p>Add your notable achievements</p>
+                </div>
+                
+                <button type="button" class="add-btn" onclick="addItem('achievementsForm', 'achievementEmptyState', 'achievementCount', 'achievement')">
+                    <i class="fas fa-plus"></i> Add Achievement
+                </button>
+                
+                <input type="hidden" id="achievementCount" name="achievement_count" value="1">
+            </div>
+            
+            <!-- Volunteer Work Section -->
+            <div class="section">
+                <div class="section-title">
+                    <i class="fas fa-hands-helping"></i>
+                    <h2>Volunteer Work</h2>
+                </div>
+                
+                <div id="volunteerForm">
+                    <div class="item-container" id="volunteer1">
+                        <div class="item-header">
+                            <div class="item-number">1</div>
+                            <button type="button" class="remove-item" onclick="removeItem('volunteer1', 'volunteerCount')" style="display: none;">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="form-group">
+                            <label for="volunteerOrg1">Organization</label>
+                            <input type="text" id="volunteerOrg1" name="volunteer_org_1" placeholder="Red Cross" >
+                        </div>
+                        <div class="form-group">
+                            <label for="volunteerRole1">Role</label>
+                            <input type="text" id="volunteerRole1" name="volunteer_role_1" placeholder="Volunteer Coordinator">
+                        </div>
+                        <div class="form-group date-fields">
+                            <div class="date-field">
+                                <label for="volunteerStart1">Start Date</label>
+                                <input type="date" id="volunteerStart1" name="volunteer_start_1">
+                            </div>
+                            <div class="date-field">
+                                <label for="volunteerEnd1">End Date</label>
+                                <input type="date" id="volunteerEnd1" name="volunteer_end_1">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="volunteerDesc1">Description</label>
+                            <textarea id="volunteerDesc1" name="volunteer_desc_1" placeholder="Describe your responsibilities and impact"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="volunteerEmptyState" class="empty-state">
+                    <i class="fas fa-hands-helping"></i>
+                    <h3>No Volunteer Work Added</h3>
+                    <p>Add your volunteer experiences</p>
+                </div>
+                
+                <button type="button" class="add-btn" onclick="addItem('volunteerForm', 'volunteerEmptyState', 'volunteerCount', 'volunteer')">
+                    <i class="fas fa-plus"></i> Add Volunteer Work
+                </button>
+                
+                <input type="hidden" id="volunteerCount" name="volunteer_count" value="1">
+            </div>
+            
+            <!-- Hobbies Section -->
+            <div class="section">
+                <div class="section-title">
+                    <i class="fas fa-heart"></i>
+                    <h2>Hobbies & Interests</h2>
+                </div>
+                
+                <div class="form-group">
+                    <label for="hobbies">Your Hobbies and Interests</label>
+                    <textarea id="hobbies" name="hobbies" placeholder="e.g., Photography, Hiking, Chess, Reading"></textarea>
+                </div>
+                
+                <p style="color: #64748b; font-size: 0.9rem; margin-top: -0.5rem;">
+                    Separate multiple hobbies with commas
+                </p>
+            </div>
+            
+            <div class="buttons">
+                <button type="submit" name="skip" value="true" class="btn btn-skip">
+                    <i class="fas fa-forward"></i> Skip All Sections
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-check"></i> Complete Profile
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Global counters for each section
+        const counters = {
+            cert: 1,
+            achievement: 1,
+            volunteer: 1
+        };
+        
+        // Add new item to a section
+        function addItem(formId, emptyStateId, countId, type) {
+            counters[type]++;
+            const newId = type + counters[type];
+            
+            const newItem = document.createElement('div');
+            newItem.className = 'item-container';
+            newItem.id = newId;
+            
+            // Template based on type
+            if (type === 'certification') {
+                newItem.innerHTML = `
+                    <div class="item-header">
+                        <div class="item-number">${counters[type]}</div>
+                        <button type="button" class="remove-item" onclick="removeItem('${newId}', '${countId}')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <label for="certName${counters[type]}">Name</label>
+                        <input type="text" id="certName${counters[type]}" name="cert_name_${counters[type]}" placeholder="AWS Certified Solutions Architect" >
+                    </div>
+                    <div class="form-group">
+                        <label for="certOrg${counters[type]}">Issuing Organization</label>
+                        <input type="text" id="certOrg${counters[type]}" name="cert_org_${counters[type]}" placeholder="Amazon Web Services" >
+                    </div>
+                    <div class="form-group date-fields">
+                        <div class="date-field">
+                            <label for="certDate${counters[type]}">Issue Date</label>
+                            <input type="date" id="certDate${counters[type]}" name="cert_date_${counters[type]}">
+                        </div>
+                        <div class="date-field">
+                            <label for="certExpiry${counters[type]}">Expiry Date</label>
+                            <input type="date" id="certExpiry${counters[type]}" name="cert_expiry_${counters[type]}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="certLink${counters[type]}">Credential URL</label>
+                        <input type="url" id="certLink${counters[type]}" name="cert_link_${counters[type]}" placeholder="https://example.com/certificate">
+                    </div>
+                `;
+            } 
+            else if (type === 'achievement') {
+                newItem.innerHTML = `
+                    <div class="item-header">
+                        <div class="item-number">${counters[type]}</div>
+                        <button type="button" class="remove-item" onclick="removeItem('${newId}', '${countId}')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <label for="achievementName${counters[type]}">Title</label>
+                        <input type="text" id="achievementName${counters[type]}" name="achievement_name_${counters[type]}" placeholder="Employee of the Year" >
+                    </div>
+                    <div class="form-group">
+                        <label for="achievementOrg${counters[type]}">Issuing Organization</label>
+                        <input type="text" id="achievementOrg${counters[type]}" name="achievement_org_${counters[type]}" placeholder="Tech Company Inc.">
+                    </div>
+                    <div class="form-group">
+                        <label for="achievementDate${counters[type]}">Date Received</label>
+                        <input type="date" id="achievementDate${counters[type]}" name="achievement_date_${counters[type]}">
+                    </div>
+                    <div class="form-group">
+                        <label for="achievementDesc${counters[type]}">Description</label>
+                        <textarea id="achievementDesc${counters[type]}" name="achievement_desc_${counters[type]}" placeholder="Recognized for outstanding performance..."></textarea>
+                    </div>
+                `;
+            }
+            else if (type === 'volunteer') {
+                newItem.innerHTML = `
+                    <div class="item-header">
+                        <div class="item-number">${counters[type]}</div>
+                        <button type="button" class="remove-item" onclick="removeItem('${newId}', '${countId}')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <label for="volunteerOrg${counters[type]}">Organization</label>
+                        <input type="text" id="volunteerOrg${counters[type]}" name="volunteer_org_${counters[type]}" placeholder="Red Cross" >
+                    </div>
+                    <div class="form-group">
+                        <label for="volunteerRole${counters[type]}">Role</label>
+                        <input type="text" id="volunteerRole${counters[type]}" name="volunteer_role_${counters[type]}" placeholder="Volunteer Coordinator">
+                    </div>
+                    <div class="form-group date-fields">
+                        <div class="date-field">
+                            <label for="volunteerStart${counters[type]}">Start Date</label>
+                            <input type="date" id="volunteerStart${counters[type]}" name="volunteer_start_${counters[type]}">
+                        </div>
+                        <div class="date-field">
+                            <label for="volunteerEnd${counters[type]}">End Date</label>
+                            <input type="date" id="volunteerEnd${counters[type]}" name="volunteer_end_${counters[type]}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="volunteerDesc${counters[type]}">Description</label>
+                        <textarea id="volunteerDesc${counters[type]}" name="volunteer_desc_${counters[type]}" placeholder="Describe your responsibilities and impact"></textarea>
+                    </div>
+                `;
+            }
+            
+            document.getElementById(formId).appendChild(newItem);
+            document.getElementById(emptyStateId).style.display = 'none';
+            document.getElementById(countId).value = counters[type];
+            
+            // Show remove buttons if more than one item
+            const items = document.querySelectorAll(`#${formId} .item-container`);
+            if (items.length > 1) {
+                items.forEach(item => {
+                    item.querySelector('.remove-item').style.display = 'flex';
+                });
+            }
+        }
+        
+        // Remove item from a section
+        function removeItem(id, countId) {
+            const itemToRemove = document.getElementById(id);
+            if (itemToRemove) {
+                itemToRemove.remove();
+                
+                // Update counter
+                const type = countId.replace('Count', '');
+                counters[type]--;
+                document.getElementById(countId).value = counters[type];
+                
+                // Update numbers and IDs
+                const formId = id.replace(/\d+$/, '') + 'Form';
+                const items = document.querySelectorAll(`#${formId} .item-container`);
+                
+                items.forEach((item, index) => {
+                    const number = item.querySelector('.item-number');
+                    if (number) {
+                        number.textContent = index + 1;
+                        
+                        // Update IDs and names
+                        const inputs = item.querySelectorAll('[id], [name]');
+                        inputs.forEach(input => {
+                            if (input.id) input.id = input.id.replace(/\d+$/, index + 1);
+                            if (input.name) input.name = input.name.replace(/\d+$/, index + 1);
+                        });
+                    }
+                });
+                
+                // Hide remove button if only one item left
+                if (items.length === 1) {
+                    items[0].querySelector('.remove-item').style.display = 'none';
+                }
+                
+                // Show empty state if no items left
+                if (items.length === 0) {
+                    const emptyStateId = id.replace(/\d+$/, '') + 'EmptyState';
+                    document.getElementById(emptyStateId).style.display = 'block';
+                }
+            }
+        }
+        
+        // Initialize date fields
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            
+            // Set default dates for first certification
+            if (document.getElementById('certDate1')) {
+                const certDate = new Date();
+                certDate.setFullYear(certDate.getFullYear() - 1);
+                document.getElementById('certDate1').value = certDate.toISOString().split('T')[0];
+            }
+            
+            // Set default dates for first achievement
+            if (document.getElementById('achievementDate1')) {
+                const achievementDate = new Date();
+                achievementDate.setMonth(achievementDate.getMonth() - 3);
+                document.getElementById('achievementDate1').value = achievementDate.toISOString().split('T')[0];
+            }
+            
+            // Set default dates for first volunteer work
+            if (document.getElementById('volunteerStart1')) {
+                const volunteerStart = new Date();
+                volunteerStart.setFullYear(volunteerStart.getFullYear() - 2);
+                document.getElementById('volunteerStart1').value = volunteerStart.toISOString().split('T')[0];
+                document.getElementById('volunteerEnd1').value = today;
+            }
+        });
+    </script>
+</body>
+</html>
